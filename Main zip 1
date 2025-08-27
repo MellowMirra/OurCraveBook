@@ -1,0 +1,135 @@
+import os
+import zipfile
+
+# Define project structure
+project_name = "ourcravebook"
+files = {
+    "index.html": """<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OurCraveBook</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="intro">
+    <h1 class="logo">OurCraveBook</h1>
+    <p class="tagline">Desire. Share. Receive.</p>
+  </div>
+
+  <main>
+    <section class="drop-zone" id="drop-zone">
+      <p>Drag and drop a link here to add to your wishlist ✨</p>
+    </section>
+
+    <ul id="wishlist"></ul>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>""",
+
+    "style.css": """body {
+  margin: 0;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  background: #fff;
+  color: #333;
+  text-align: center;
+}
+
+.intro {
+  padding: 40px 20px;
+}
+
+.logo {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #7d2ae8;
+}
+
+.tagline {
+  font-size: 1.2rem;
+  color: #555;
+}
+
+.drop-zone {
+  margin: 30px auto;
+  padding: 40px;
+  border: 2px dashed #aaa;
+  border-radius: 10px;
+  max-width: 500px;
+  transition: 0.3s;
+}
+
+.drop-zone.dragover {
+  border-color: #7d2ae8;
+  background: #f8f0ff;
+}
+
+#wishlist {
+  list-style: none;
+  padding: 0;
+  margin-top: 30px;
+}
+
+#wishlist li {
+  padding: 10px;
+  margin: 8px auto;
+  background: #f4f4f4;
+  border-radius: 6px;
+  max-width: 400px;
+  word-break: break-all;
+}""",
+
+    "script.js": """const dropZone = document.getElementById("drop-zone");
+const wishlist = document.getElementById("wishlist");
+
+dropZone.addEventListener("dragover", (e) => {
+  e.preventDefault();
+  dropZone.classList.add("dragover");
+});
+
+dropZone.addEventListener("dragleave", () => {
+  dropZone.classList.remove("dragover");
+});
+
+dropZone.addEventListener("drop", (e) => {
+  e.preventDefault();
+  dropZone.classList.remove("dragover");
+
+  const data = e.dataTransfer.getData("text/uri-list") || e.dataTransfer.getData("text/plain");
+  
+  if (data) {
+    const li = document.createElement("li");
+    li.innerHTML = `<a href="${data}" target="_blank">${data}</a>`;
+    wishlist.appendChild(li);
+  }
+});"""
+}
+
+# Create temp folder
+base_path = f"/mnt/data/{project_name}"
+os.makedirs(base_path, exist_ok=True)
+
+# Write files
+for filename, content in files.items():
+    with open(os.path.join(base_path, filename), "w", encoding="utf-8") as f:
+        f.write(content)
+
+# Make assets folder with placeholder logo
+assets_path = os.path.join(base_path, "assets")
+os.makedirs(assets_path, exist_ok=True)
+with open(os.path.join(assets_path, "logo.png"), "wb") as f:
+    f.write(b"")  # Empty placeholder
+
+# Zip it
+zip_path = f"/mnt/data/{project_name}.zip"
+with zipfile.ZipFile(zip_path, "w") as zipf:
+    for root, _, filenames in os.walk(base_path):
+        for filename in filenames:
+            filepath = os.path.join(root, filename)
+            arcname = os.path.relpath(filepath, base_path)
+            zipf.write(filepath, arcname)
+
+zip_path
