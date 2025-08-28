@@ -1,26 +1,20 @@
 # OurCraveBook 💋✨ Cheat Sheet
 
-Quick edits you can do on mobile 🫶
+Quick mobile-friendly guide 🫶
 
-1. **Edit Logo / Name**
-   - Open `index.html`
-   - Find `<h1>OurCraveBook 💋✨</h1>`
-   - Change text if you want.
+1. **Logo / Name**
+   - index.html → <h1>OurCraveBook 💋✨</h1>
 
-2. **Change Colors / Fonts**
-   - Open `style.css`
-   - Look for `:root { --main-color: #... }`
-   - Update hex codes.
+2. **Colors / Fonts**
+   - style.css → :root { --main-color: #... }
 
-3. **Add Wishlist Categories**
-   - In `index.html`, copy any `<div class="wishlist-section">...</div>`
-   - Paste & rename.
+3. **Wishlist**
+   - Drag & drop links into the box
+   - Wishlist saves locally for now; Firebase integration later
 
-4. **Drag + Drop**
-   - Grab any link → drop into the box → auto saves.
+4. **Deploy**
+   - Push to GitHub → Vercel auto deploys
 
-5. **Deploy**
-   - Push to GitHub → Vercel auto deploys.
-
-6. **Stripe & Firebase**
-   - Future step, see `script.js` (TODO).
+5. **Stripe / Firebase**
+   - script.js → placeholders for donations/purchases
+   - firebase-config.js → replace with your keys

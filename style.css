@@ -46,3 +46,18 @@ h1 {
   width: 80%;
   color: var(--main-color);
 }
+
+#stripe-buttons {
+  margin-top: 1rem;
+}
+
+#stripe-buttons button {
+  padding: 0.5rem 1rem;
+  margin: 0.3rem;
+  border: none;
+  border-radius: 8px;
+  background: var(--main-color);
+  color: var(--text-color);
+  font-size: 1rem;
+  cursor: pointer;
+}

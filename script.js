@@ -1,4 +1,4 @@
-// Basic Drag & Drop for wishlist
+// Drag & Drop Wishlist
 const dropzone = document.getElementById('dropzone');
 const wishlist = document.getElementById('wishlist');
 
@@ -23,4 +23,11 @@ dropzone.addEventListener('drop', (e) => {
   }
 });
 
-// TODO: Connect Stripe + Firebase later
+// Stripe Placeholder Buttons
+document.getElementById('donate-button').addEventListener('click', () => {
+  alert('Stripe donation placeholder - connect keys in script.js');
+});
+
+document.getElementById('buy-button').addEventListener('click', () => {
+  alert('Stripe purchase placeholder - connect keys in script.js');
+});
