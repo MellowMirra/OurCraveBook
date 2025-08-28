@@ -1,6 +1,3 @@
-import { auth, db } from "./firebase-config";
-const dropZone = document.getElementById("drop-zone");
-const wishlist = document.getElementById("wishlist");
 
 dropZone.addEventListener("dragover", (e) => {
   e.preventDefault();
