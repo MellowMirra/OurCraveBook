@@ -1,22 +1,26 @@
+// Basic Drag & Drop for wishlist
+const dropzone = document.getElementById('dropzone');
+const wishlist = document.getElementById('wishlist');
 
-dropZone.addEventListener("dragover", (e) => {
+dropzone.addEventListener('dragover', (e) => {
   e.preventDefault();
-  dropZone.classList.add("dragover");
+  dropzone.style.background = 'rgba(255,255,255,0.1)';
 });
 
-dropZone.addEventListener("dragleave", () => {
-  dropZone.classList.remove("dragover");
+dropzone.addEventListener('dragleave', () => {
+  dropzone.style.background = 'transparent';
 });
 
-dropZone.addEventListener("drop", (e) => {
+dropzone.addEventListener('drop', (e) => {
   e.preventDefault();
-  dropZone.classList.remove("dragover");
+  dropzone.style.background = 'transparent';
 
-  const data = e.dataTransfer.getData("text/uri-list") || e.dataTransfer.getData("text/plain");
-  
+  const data = e.dataTransfer.getData('text/plain');
   if (data) {
-    const li = document.createElement("li");
+    const li = document.createElement('li');
     li.innerHTML = `<a href="${data}" target="_blank">${data}</a>`;
     wishlist.appendChild(li);
   }
 });
+
+// TODO: Connect Stripe + Firebase later

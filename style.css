@@ -1,51 +1,48 @@
+:root {
+  --main-color: #ff3cac;
+  --accent-color: #784ba0;
+  --bg-color: #1e1e2f;
+  --text-color: #fff;
+  --font-main: 'Arial', sans-serif;
+}
+
 body {
   margin: 0;
-  font-family: 'Helvetica Neue', Arial, sans-serif;
-  background: #fff;
-  color: #333;
+  padding: 0;
+  font-family: var(--font-main);
+  background: var(--bg-color);
+  color: var(--text-color);
   text-align: center;
 }
 
-.intro {
-  padding: 40px 20px;
+header {
+  padding: 2rem;
+  background: linear-gradient(90deg, var(--main-color), var(--accent-color));
 }
 
-.logo {
+h1 {
+  margin: 0;
   font-size: 2.5rem;
-  font-weight: bold;
-  color: #7d2ae8;
-}
-
-.tagline {
-  font-size: 1.2rem;
-  color: #555;
-}
-
-.drop-zone {
-  margin: 30px auto;
-  padding: 40px;
-  border: 2px dashed #aaa;
-  border-radius: 10px;
-  max-width: 500px;
-  transition: 0.3s;
-}
-
-.drop-zone.dragover {
-  border-color: #7d2ae8;
-  background: #f8f0ff;
+  text-shadow: 0 0 10px rgba(255,255,255,0.5);
 }
 
 #wishlist {
   list-style: none;
   padding: 0;
-  margin-top: 30px;
 }
 
 #wishlist li {
-  padding: 10px;
-  margin: 8px auto;
-  background: #f4f4f4;
-  border-radius: 6px;
-  max-width: 400px;
-  word-break: break-all;
+  background: rgba(255,255,255,0.1);
+  margin: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 8px;
+}
+
+#dropzone {
+  margin: 1rem auto;
+  padding: 2rem;
+  border: 2px dashed var(--main-color);
+  border-radius: 12px;
+  width: 80%;
+  color: var(--main-color);
 }
