@@ -23,11 +23,13 @@ dropzone.addEventListener('drop', (e) => {
   }
 });
 
-// Stripe Placeholder Buttons
-document.getElementById('donate-button').addEventListener('click', () => {
-  alert('Stripe donation placeholder - connect keys in script.js');
+// Stripe Setup Example
+const stripe = Stripe(pk_test_51S0TzOPBBjulJrK1nnT9sWmAbsc6wvFfrjrtE7K48CgxNQfr3nX2FmSqHQJg89jonhsiY5XgIi7cszHbTEevY29G00psKdIjTN);
+
+document.getElementById('donate-button').addEventListener('click', async () => {
+  // create session for donation
 });
 
-document.getElementById('buy-button').addEventListener('click', () => {
-  alert('Stripe purchase placeholder - connect keys in script.js');
+document.getElementById('buy-button').addEventListener('click', async () => {
+  // create session for full purchase
 });
