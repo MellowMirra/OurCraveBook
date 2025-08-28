@@ -24,7 +24,7 @@ dropzone.addEventListener('drop', (e) => {
 });
 
 // Stripe Setup Example
-const stripe = Stripe(pk_test_51S0TzOPBBjulJrK1nnT9sWmAbsc6wvFfrjrtE7K48CgxNQfr3nX2FmSqHQJg89jonhsiY5XgIi7cszHbTEevY29G00psKdIjTN);
+const stripe = Stripe(pk_live_51S0TzFAnphGmpjq0aTGG9PsupH5XjLC2Ytae54bOeA9cXEMUNaTTJyVEQUyfJ0B8e46RWOTFXnut2BB93vCiPX7100nTFxETZh);
 
 document.getElementById('donate-button').addEventListener('click', async () => {
   // create session for donation
@@ -39,7 +39,7 @@ import { GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https:/
 import { collection, addDoc, query, onSnapshot } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
 // Stripe setup (replace with your Publishable Key)
-const stripe = Stripe(pk_test_51S0TzOPBBjulJrK1nnT9sWmAbsc6wvFfrjrtE7K48CgxNQfr3nX2FmSqHQJg89jonhsiY5XgIi7cszHbTEevY29G00psKdIjTN);
+const stripe = Stripe(pk_live_51S0TzFAnphGmpjq0aTGG9PsupH5XjLC2Ytae54bOeA9cXEMUNaTTJyVEQUyfJ0B8e46RWOTFXnut2BB93vCiPX7100nTFxETZh);
 
 // DOM elements
 const dropzone = document.getElementById('dropzone');
