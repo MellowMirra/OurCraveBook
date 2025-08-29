@@ -1,0 +1,20 @@
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /users/{uid}/wishlist/{itemId} {
+      allow read: if true;
+      allow write, update, delete: if request.auth != null && request.auth.uid == uid;
+      allow create: if request.auth != null && request.auth.uid == uid;
+    }
+    match /users/{uid}/meta/{doc} {
+      allow read: if true;
+      allow write: if request.auth != null && request.auth.uid == uid;
+    }
+    match /waitlist/{doc} {
+      allow create: if true;
+      allow read, update, delete: if false;
+    }
+    match /stats/{doc} { allow read: if true; allow write: if false; }
+  }
+}

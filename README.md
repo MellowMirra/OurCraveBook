@@ -1,20 +1,5 @@
-# OurCraveBook 💋✨ Cheat Sheet
-
-Quick mobile-friendly guide 🫶
-
-1. **Logo / Name**
-   - index.html → <h1>OurCraveBook 💋✨</h1>
-
-2. **Colors / Fonts**
-   - style.css → :root { --main-color: #... }
-
-3. **Wishlist**
-   - Drag & drop links into the box
-   - Wishlist saves locally for now; Firebase integration later
-
-4. **Deploy**
-   - Push to GitHub → Vercel auto deploys
-
-5. **Stripe / Firebase**
-   - script.js → placeholders for donations/purchases
-   - firebase-config.js → replace with your keys
+# OurCraveBook — Live build
+- Smart parser, per-item progress, dynamic Buy Now, PPV, profiles, referrals, SEO
+- Stripe checkout + webhook, Firebase (Auth/Firestore/Storage)
+- Copy-link button, categories + reorder
+- See README for env variables (STRIPE_*, FIREBASE_*); verify domain for Apple Pay/Google Pay

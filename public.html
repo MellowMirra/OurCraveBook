@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>OurCraveBook — Creator Page</title>
+  <meta name="description" content="Explore creator wishlists on OurCraveBook and support their goals." />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="public">
+  <header class="app-header">
+    <div class="brand"><span class="brand-glyph">💋</span><a class="brand-name" href="/">OurCraveBook</a></div>
+    <nav class="actions"><a href="/" class="btn ghost">Create your own</a></nav>
+  </header>
+  <section class="public-hero"><img id="pubAvatar" class="pub-avatar" alt="Avatar" /><h2 id="pubName">Creator</h2><p id="pubBio" class="muted"></p><div class="pub-socials" id="pubSocials"></div></section>
+  <main class="wishlist-section"><h3 id="pubTitle">Wishlist</h3><div id="pubSections"></div><ul id="pubList" class="wishlist"></ul></main>
+  <footer class="app-footer"><p class="muted">💌 Want your own? Visit OurCraveBook.</p></footer>
+  <script src="firebase-config.js" type="module"></script>
+  <script type="module">
+    import { db, storage } from "./firebase-config.js";
+    import { doc, getDoc, collection, query, orderBy, getDocs } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+    import { getDownloadURL, ref } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-storage.js";
+    const qs = new URLSearchParams(location.search); const uid = qs.get("user");
+    if(!uid){ document.getElementById('pubTitle').textContent = "No user specified"; throw new Error("missing uid") }
+    async function load(){
+      const profSnap = await getDoc(doc(db, "users", uid, "meta", "profile"));
+      if (profSnap.exists()){
+        const p = profSnap.data();
+        document.getElementById("pubName").textContent = p.displayName || "Creator";
+        document.getElementById("pubBio").textContent = p.bio || "";
+        if (p.avatarPath){ try{ const url = await getDownloadURL(ref(storage, p.avatarPath)); document.getElementById("pubAvatar").src = url; }catch{} }
+        const socials = [];
+        if (p.ig) socials.push(`<a href="https://instagram.com/${p.ig.replace('@','')}" target="_blank">Instagram</a>`);
+        if (p.tw) socials.push(`<a href="https://x.com/${p.tw.replace('@','')}" target="_blank">X</a>`);
+        if (p.of) socials.push(`<a href="${p.of}" target="_blank">OnlyFans</a>`);
+        if (p.web) socials.push(`<a href="${p.web}" target="_blank">Website</a>`);
+        document.getElementById("pubSocials").innerHTML = socials.join(" · ");
+      }
+      const list = document.getElementById("pubList");
+      const snap = await getDocs(query(collection(db,"users",uid,"wishlist"), orderBy("order","asc")));
+      const byCat = {}; snap.forEach(d=>{ const it=d.data(); const c=it.category||"General"; (byCat[c]=byCat[c]||[]).push({id:d.id, ...it}); });
+      const wrap = document.getElementById("pubSections"); wrap.innerHTML = "";
+      Object.keys(byCat).forEach(cat=>{
+        const h = document.createElement('h4'); h.className="section-header"; h.textContent = cat; wrap.appendChild(h);
+        const ul = document.createElement('ul'); ul.className="wishlist"; wrap.appendChild(ul);
+        byCat[cat].forEach(it=>{
+          const li = document.createElement("li");
+          const img = it.image ? `<img src="${it.image}" alt="" class="item-img">` : "";
+          const price = it.price ? `<span class="muted">$${it.price}</span>` : "";
+          const contributed = it.contributed || 0; const goalCents = it.price ? it.price*100 : null;
+          const pct = goalCents ? Math.min(100, Math.round((contributed/goalCents)*100)) : 0;
+          li.innerHTML = `${img}<div style="flex:1"><a href="${it.url}" target="_blank" rel="noopener">${it.title || it.url}</a>${it.notes?`<div class='muted' style='font-size:.85rem'>${it.notes}</div>`:""}${goalCents?`<div class='progress' style='margin-top:.4rem'><div style='width:${pct}%'></div></div>`:""}</div>${price}`;
+          ul.appendChild(li);
+        });
+      });
+    }
+    load();
+  </script>
+</body>
+</html>
