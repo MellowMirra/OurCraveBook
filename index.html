@@ -1,34 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OurCraveBook 💋✨</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>OurCraveBook 💋✨ — Crave it. Share it. Claim it.</title>
+  <meta name="description" content="OurCraveBook is a gorgeous, collaborative wishlist with real-time support, PPV gallery, and shareable creator pages." />
+  <meta property="og:title" content="OurCraveBook — Wishlist, but glamorous ✨" />
+  <meta property="og:description" content="Create a crave list, accept contributions, sell PPV access, and share your public profile." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://placehold.co/1200x630/ff3cac/ffffff?text=OurCraveBook" />
+  <meta property="og:url" content="https://ourcravebook.vercel.app/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="canonical" href="https://ourcravebook.vercel.app/" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header>
-    <h1>OurCraveBook 💋✨</h1>
-    <p>Your sleek & sexy wishlist space.</p>
+  <div id="splash" aria-hidden="true"><div class="splash-inner"><h1 class="logo">OurCraveBook</h1><p class="tagline">crave it · share it · claim it</p><div class="shimmer"></div></div></div>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <header class="app-header">
+    <div class="brand"><span class="brand-glyph">💋</span><a class="brand-name" href="/">OurCraveBook</a></div>
+    <nav class="actions">
+      <button id="themeToggle" class="btn ghost">✨ Theme</button>
+      <a id="publicLink" class="btn link" href="#" target="_blank" rel="noopener">Public Page</a>
+      <button id="openProfile" class="btn ghost">Profile</button>
+      <label class="creator-toggle"><input type="checkbox" id="creatorToggle" /><span class="slider"></span><span class="label">Creator</span></label>
+      <button id="loginBtn" class="btn ghost">Sign in with Google</button>
+    </nav>
   </header>
-
-  <main>
-    <div class="wishlist-section">
-      <h2>My Cravings</h2>
-      <div id="dropzone">Drag & Drop links here</div>
-      <ul id="wishlist"></ul>
-      <div id="stripe-buttons">
-        <button id="donate-button">Donate</button>
-        <button id="buy-button">Buy Now</button>
-      </div>
+  <aside id="creatorPanel" class="creator-panel" aria-hidden="true">
+    <h3>Creator Dashboard</h3>
+    <div class="creator-metrics">
+      <div class="metric"><div class="metric-num" id="m_donations">0</div><div class="metric-label">Donations</div></div>
+      <div class="metric"><div class="metric-num" id="m_purchases">0</div><div class="metric-label">Purchases</div></div>
+      <div class="metric"><div class="metric-num" id="m_unlocks">0</div><div class="metric-label">Gallery Unlocks</div></div>
+      <div class="metric"><div class="metric-num" id="m_waitlist">0</div><div class="metric-label">Waitlist Emails</div></div>
     </div>
+    <p class="creator-note">Live numbers via Stripe webhooks.</p>
+  </aside>
+  <section class="hero">
+    <h2>Crave it. <span class="soft">Share it.</span> Claim it.</h2>
+    <p class="hero-sub">A gorgeous, collaborative wishlist—built for gifts, goals, and a little glam ✨</p>
+    <div class="hero-cta"><button id="openAdd" class="btn primary">+ Add to My Craves</button><a href="#my-cravings" class="btn link">View My Cravings</a></div>
+    <div class="orbit"><span>👜</span><span>⭐</span><span>🪩</span><span>👠</span></div>
+  </section>
+  <section class="gallery" id="exclusive-gallery">
+    <h3>💎 Exclusive Gallery</h3>
+    <div class="gallery-grid"><div class="gallery-item"><img src="https://placekitten.com/400/250"></div><div class="gallery-item"><img src="https://placekitten.com/401/250"></div><div class="gallery-item"><img src="https://placekitten.com/402/250"></div></div>
+    <div class="unlock-overlay"><p>This gallery is locked. Unlock to view ✨</p><button id="unlock-button" class="btn primary">Unlock Gallery</button></div>
+  </section>
+  <main id="my-cravings" class="wishlist-section">
+    <h3>My Cravings</h3>
+    <div id="dropzone" tabindex="0">Drag & Drop links here, or use “Add to My Craves”—we'll auto-fetch image/price/title for you.</div>
+    <div id="sections"></div>
+    <ul id="wishlist" class="wishlist"></ul>
+    <p class="tiny muted">Tip: long-press on mobile to reorder (or drag on desktop).</p>
   </main>
-
-  <footer>
-    <p>🔥 Powered by OurCraveBook 🔥</p>
-  </footer>
-
-  <script src="firebase-config.js"></script>
-  <script src="script.js"></script>
+  <section class="email-cta">
+    <h3>Get early access & drops</h3>
+    <form id="email-form" class="email-form" autocomplete="on"><input type="email" id="email-input" placeholder="your@email.com" required /><button class="btn primary" type="submit">Notify Me</button></form>
+    <p id="email-success" class="tiny muted" hidden>You're on the list ✨</p>
+  </section>
+  <dialog id="profileModal"><form method="dialog" class="modal">
+      <h3>Your Profile</h3>
+      <div class="profile-grid"><div class="avatar"><img id="avatarPreview" alt="Avatar preview" /><input type="file" id="avatarInput" accept="image/*" /></div>
+      <div class="fields">
+        <label>Display Name <input id="displayName" /></label>
+        <label>Bio <textarea id="bio" rows="3"></textarea></label>
+        <label>Notification Email <input id="notifyEmail" /></label>
+        <div class="socials"><label>Instagram <input id="ig" /></label><label>X/Twitter <input id="tw" /></label><label>OnlyFans <input id="of" /></label><label>Website <input id="web" /></label></div>
+      </div></div>
+      <menu><button id="saveProfile" class="btn primary" value="save">Save</button><button value="cancel" class="btn ghost">Close</button></menu>
+  </form></dialog>
+  <dialog id="addModal"><form method="dialog" class="modal">
+    <h3>Add to Craves</h3>
+    <label>Item URL <input id="itemUrl" placeholder="https://..." required /></label>
+    <div class="row2"><label>Image URL <input id="itemImage" placeholder="https://image..." /></label><label>Goal Price (USD) <input id="itemPrice" type="number" min="0" step="1" placeholder="e.g., 129" /></label></div>
+    <label>Title <input id="itemTitle" placeholder="e.g., Amina Muaddi Heels" /></label>
+    <label>Category <select id="itemCategory"><option>General</option><option>Beauty</option><option>Shoes</option><option>Fashion</option><option>Tech</option><option>Travel</option></select></label>
+    <label>Notes <textarea id="itemNotes" rows="3"></textarea></label>
+    <menu><button id="autoFill" class="btn ghost" value="auto">✨ Auto-fill</button><button id="addItem" class="btn primary" value="save">Add Item</button><button value="cancel" class="btn ghost">Cancel</button></menu>
+  </form></dialog>
+  <footer class="app-footer"><p>🔥 Powered by OurCraveBook — built with Firebase & Stripe.</p></footer>
+  <script src="firebase-config.js" type="module"></script>
+  <script src="script.js" type="module"></script>
 </body>
 </html>
